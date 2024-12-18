@@ -1,25 +1,33 @@
+using Identity;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    builder.Services.AddControllersWithViews();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    builder.Services.ConfigureIdentity(builder.Configuration);
+    builder.Services.ConfigureOpenIdDict();
+
 }
 
-app.UseHttpsRedirection();
+var app = builder.Build();
+{
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
-app.UseAuthorization();
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
 
-app.MapControllers();
+    app.UseRouting();
 
-app.Run();
+    app.UseAuthorization();
+
+    app.MapDefaultControllerRoute();
+
+    app.Run();
+
+}
