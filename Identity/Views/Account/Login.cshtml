@@ -1,0 +1,87 @@
+@model Identity.Models.LoginViewModel
+@using Identity.Helpers
+
+@{
+    ViewData[PagesViewDataConstants.TitleViewData] = "Login";
+    ViewData[PagesViewDataConstants.HomepageUrlViewData] = Model.ClientUrl;
+}
+
+<div class="login d-flex align-items-center justify-content-center h-100">
+    <div class="col-md-12 col-lg-8 ms-auto me-auto shadow-box">
+        <div class="row login-white-bg">
+            <div class="col-sm-12 col-md-6 p-0">
+                <div class="login-card p-4 h-100">
+                    <div class="login-card-border h-100 p-5">
+                        <div class="login-card-logo-wrap d-flex align-items-center gap-1">
+                            <img class="logo" src="~/style-library/cassation/images/logo.png" title="PortalTitle" alt="PortalTitle">
+                            <div class="project-name text-decoration-none" title="PortalTitle">
+                                <h3 class="main-title mb-0" title="PortalTitle">PortalTitle</h3>
+                                <p class="sub-title m-0">Organization</p>
+                            </div>
+                        </div>
+
+                        <div class="login-card-content mt-5">
+                            <p class="welcome-title">WelcomeMessage</p>
+
+                            <h1 class="main-title mb-4" title="PortalTitle">PortalTitle</h1>
+
+                            <form asp-route="Login" id="js-loginForm" class="login-form mt-4">
+
+                                <input type="hidden" asp-for="ReturnUrl"/>
+
+                                <div class="form-group mb-4">
+                                    <div class="form-floating">
+                                        <input asp-for="Username" id="js-username" placeholder="UsernamePlaceholder" type="text" class="form-control" maxlength="30"/>
+                                        <label asp-for="Username" class="control-label">
+                                            <span>UsernamePlaceholder</span><span class="astrex">*</span>
+                                        </label>
+                                    </div>
+                                    <span class="validation-msg text-danger mt-2 mb-0 d-none">RequiredField</span>
+                                    <span asp-validation-for="Username" class="validation-msg text-danger mt-2 mb-0"></span>
+                                </div>
+
+
+                                <div class="form-group mb-4">
+                                    <div class="form-floating">
+                                        <span id="js-showPassword" class="identity-cassation-eye d-none pass-icon"></span>
+                                        <span id="js-hidePassword" class="identity-cassation-eye-slash d-none pass-icon"></span>
+                                        <input asp-for="Password" id="js-password" type="password" placeholder="PasswordPlaceholder" autocomplete="off" class="form-control enter-pw" maxlength="30"/>
+                                        <label asp-for="Password" class="control-label">
+                                            <span>PasswordPlaceholder</span><span class="astrex">*</span>
+                                        </label>
+                                    </div>
+                                    <span class="validation-msg text-danger mt-2 mb-0 d-none">RequiredField</span>
+                                    <span asp-validation-for="Password" class="validation-msg text-danger mt-2 mb-0"></span>
+                                </div>
+
+
+                                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                                {
+                                    <div class="validation-msg text-danger mt-2 mb-0" role="alert">@Html.Raw(Model.ErrorMessage)</div>
+                                }
+
+                                @if (ViewContext.ModelState.IsValid == false)
+                                {
+                                    <div asp-validation-summary="ModelOnly" class="validation-msg text-danger mt-2 mb-0"></div>
+                                }
+
+                                <div class="form-group">
+                                    <input type="submit" value="Login" class="btn btn-primary btn-flex w-100"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 login-img-wrap p-0">
+                <img src="~/style-library/cassation/images/login-bg.png" alt="login" class="img-fluid login-img"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/style-library/cassation/js/recaptcha-token-validator.min.js"></script>
+    <script src="~/style-library/cassation/js/login.min.js"></script>
+}

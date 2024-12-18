@@ -2,11 +2,44 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using IdentityOptions = Identity.Configurations.IdentityOptions;
+using Identity.Configurations;
+using Identity.Interfaces;
+using Identity.Services;
 
 namespace Identity;
 
 public static class DependencyInjection
 {
+    public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<IdentityOptions>(configuration.GetSection(IdentityOptions.Key));
+        services.Configure<SecurityOptions>(configuration.GetSection(SecurityOptions.Key));
+        services.AddScoped<IAccountService, LocalAccountService>();
+    }
+
+    public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration, string corsPolicy)
+    {
+        var securityOptions = configuration.GetSection(SecurityOptions.Key);
+
+        var allowedOrigins = securityOptions.GetValue<string>(nameof(SecurityOptions.AllowedOrigins)).Split(';');
+
+        services.AddCors(o => o.AddPolicy(corsPolicy, builder =>
+        {
+            builder.SetIsOriginAllowedToAllowWildcardSubdomains()
+                .WithOrigins(allowedOrigins)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        }));
+
+        services.AddHsts(options =>
+        {
+            options.Preload = true;
+            options.IncludeSubDomains = true;
+            options.MaxAge = TimeSpan.FromDays(securityOptions.GetValue<int>(nameof(SecurityOptions.HstsMaxAgeInDays)));
+        });
+    }
+
     public static void ConfigureIdentity(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString(IdentityOptions.ConnectionStringKey);
