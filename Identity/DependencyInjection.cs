@@ -66,16 +66,11 @@ public static class DependencyInjection
     public static void ConfigureOpenIdDict(this IServiceCollection services)
     {
         services.AddOpenIddict()
-
-            // Register the OpenIddict core components.
             .AddCore(options =>
             {
-                // Configure OpenIddict to use the EF Core stores/models.
                 options.UseEntityFrameworkCore()
                     .UseDbContext<ApplicationDbContext>();
             })
-
-            // Register the OpenIddict server components.
             .AddServer(options =>
             {
                 options
@@ -88,38 +83,30 @@ public static class DependencyInjection
                 options
                     .SetAuthorizationEndpointUris("/connect/authorize")
                     .SetTokenEndpointUris("/connect/token")
-                    .SetUserinfoEndpointUris("/connect/userinfo")
-                    .SetLogoutEndpointUris("/connect/endsession");
+                    .SetUserInfoEndpointUris("/connect/userinfo")
+                    .SetEndSessionEndpointUris("/connect/endsession"); //logout
 
-                // Encryption and signing of tokens
                 options
                     .AddEphemeralEncryptionKey()
                     .AddEphemeralSigningKey()
-                .DisableAccessTokenEncryption();// disabled temp
+                .DisableAccessTokenEncryption(); //disabled temp
 
-                // Register scopes (permissions)
                 options.RegisterScopes("offline_access", "user_identity", "profile");
 
-                // Register the signing credentials.
                 options
                     .AddDevelopmentSigningCertificate()
                     .AddDevelopmentEncryptionCertificate();
 
-                // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                 options
                     .UseAspNetCore()
                     .EnableTokenEndpointPassthrough()
                     .EnableAuthorizationEndpointPassthrough()
-                    .EnableUserinfoEndpointPassthrough()
-                    .EnableLogoutEndpointPassthrough();
+                    .EnableUserInfoEndpointPassthrough()
+                    .EnableEndSessionEndpointPassthrough();
             })
-
             .AddValidation(options =>
             {
-                // Import the configuration from the local OpenIddict server instance.
                 options.UseLocalServer();
-
-                // Register the System.Net.Http integration.
                 options.UseSystemNetHttp();
             });
     }

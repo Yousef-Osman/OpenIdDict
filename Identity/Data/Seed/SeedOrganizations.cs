@@ -76,7 +76,7 @@ public class SeedOrganizations
 
         descriptor.Permissions.Add(Endpoints.Authorization);
         descriptor.Permissions.Add(Endpoints.Token);
-        descriptor.Permissions.Add(Endpoints.Logout);
+        descriptor.Permissions.Add(Endpoints.EndSession);
 
         descriptor.Permissions.Add(Permissions.ResponseTypes.Token);
         descriptor.Permissions.Add(Permissions.ResponseTypes.IdToken);
