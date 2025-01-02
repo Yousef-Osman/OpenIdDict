@@ -1,8 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-5">
+    <h1 class="display-4">Identity Server</h1>
+    <p style="font-size:22px">This is a test page for authentication with OpenIdDict</p>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="d-flex justify-content-center">
+            <div class="card col-10 col-md-8 col-lg-6 col-xl-5 p-5 mt-5 justify-content-center">
+                <p style="font-size:20px">You are now authenticted, you can go to about page</p>
+                <a class="btn btn-success col-2 align-self-center" asp-controller="Home" asp-action="About">About</a>
+            </div>
+        </div>
+    }
 </div>
