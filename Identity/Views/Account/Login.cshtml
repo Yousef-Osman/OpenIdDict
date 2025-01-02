@@ -12,7 +12,8 @@
             <h2 class="text-center mb-4 text-secondary">@ViewData["Title"]</h2>
             <div class="d-flex justify-content-center py-2">
                 <div class="col-12">
-                    <form asp-controller="Account" asp-action="Login" method="post" asp-route-returnurl="@ViewData["returnUrl"]">
+                    <form asp-controller="Account" asp-action="Login" method="post">
+                        <input type="hidden" asp-for="ReturnUrl" />
                         <div class="mb-3">
                             <label class="form-label">Username</label>
                             <input asp-for="Username" class="form-control" placeholder="Username" maxlength="30" />
