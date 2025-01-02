@@ -1,5 +1,7 @@
 using OpenIddict.Validation.AspNetCore;
 
+const string CorsPolicy = "DefaultCorsPolicy";
+
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
@@ -37,6 +39,14 @@ var builder = WebApplication.CreateBuilder(args);
         //       .SetClientId("postman_client")
         //       .SetClientSecret("49D8E3A5-6586-428E-9D92-060CB692C876");
     });
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(CorsPolicy, policy =>
+        {
+            policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+        });
+    });
 }
 
 var app = builder.Build();
@@ -48,6 +58,7 @@ var app = builder.Build();
     }
 
     app.UseHttpsRedirection();
+    app.UseCors(CorsPolicy);
 
     app.UseAuthentication();
     app.UseAuthorization();
@@ -56,4 +67,3 @@ var app = builder.Build();
 
     app.Run();
 }
-
