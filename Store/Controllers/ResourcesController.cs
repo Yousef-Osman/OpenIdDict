@@ -10,35 +10,35 @@ namespace Store.Controllers
         [HttpGet("GetOpenResource")]
         public IActionResult GetOpenResource()
         {
-            return Ok("This api is open for anyone to access");
+            return Ok("Resources Server success result, This api is accessible for all user");
         }
 
         [HttpGet("GetProtectedResource")]
         [Authorize]
         public IActionResult GetProtectedResource()
         {
-            return Ok("OpenIdDict Auth Works");
+            return Ok("Resources Server success result, This api is only accessible for authenticated user.");
         }
 
         [HttpGet("GetAdminResource")]
         [Authorize(Policy = "adminRole")]
         public IActionResult GetAdminResource()
         {
-            return Ok("you will see this message if you have admin role");
+            return Ok("Resources Server success result, This api is only accessible for admins.");
         }
 
         [HttpGet("GetContentManagerResource")]
         [Authorize(Policy = "contentManagerRole")]
         public IActionResult GetContentManagerResource()
         {
-            return Ok("you will see this message if you have admin or content manager role");
+            return Ok("Resources Server success result, This api is only accessible for content managers.");
         }
         
         [HttpGet("GetEditorResource")]
         [Authorize(Policy = "editorRole")]
         public IActionResult GetEditorResource()
         {
-            return Ok("you will see this message if you have admin, content manager, or editor role");
+            return Ok("Resources Server success result, This api is only accessible for content editors.");
         }
     }
 }
