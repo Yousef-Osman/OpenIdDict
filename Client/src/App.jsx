@@ -8,9 +8,7 @@ function App() {
     <>
       <BrowserRouter>
         <NavBar />
-        <div className=" my-5">
-          <AppRoutes />
-        </div>
+        <AppRoutes />
       </BrowserRouter>
     </>
   );

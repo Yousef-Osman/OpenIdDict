@@ -15,6 +15,11 @@ function Resources() {
 
         setUser(user);
 
+        const currentTime = Math.floor(Date.now() / 1000);
+        
+        if(currentTime > user?.expires_at)
+            await logout();
+
         if (accessToken) {
             setIsAuthenticated(true);
 
@@ -30,45 +35,44 @@ function Resources() {
     }, [isAuthenticated]);
 
     if (isLoading) {
-        return (<div className='Text-center'>Loading...</div>)
+        return (<div className='text-center mt-5'><p style={{ fontSize: 22 }}>Loading...</p></div>)
     }
 
     if (!user?.access_token)
         return <Navigate to='/unauthorized' replace />;
 
     return (
-        <div className='container'>
-            <h3 className='text-center'>Store Data</h3>
-            <hr></hr>
+        <div className='container-fluid col-xxl-9 col-md-10 col-sm-11 mt-5'>
+            <h1 className='text-primary-emphasis text-center mb-5'>OAuth 2.0 and OIDC Flow Result</h1>
             {
                 data &&
                 <fieldset disabled>
-                    <h4>Resource Server Result</h4>
+                    <h3 className='text-info-emphasis mb-3'>Resource Server Result</h3>
                     <div className="mb-3">
-                        <label htmlFor="resources" className="form-label">Data</label>
+                        <label htmlFor="resources" className="form-label font-size-20">Data</label>
                         <input type="text" id="resources" className="form-control" value={data} readOnly />
                     </div>
                 </fieldset>
             }
-            <hr></hr>
+            <hr className='my-4'></hr>
             {
                 user &&
                 <fieldset disabled>
-                    <h4>Identity Server Result</h4>
+                    <h3 className='text-info-emphasis mb-3'>Identity Server Result</h3>
                     <div className="mb-3">
-                        <label htmlFor="access_token" className="form-label">Access Token</label>
+                        <label htmlFor="access_token" className="form-label font-size-20">Access Token</label>
                         <textarea type="text" id="access_token" className="form-control" value={user.access_token} rows={4} readOnly />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="id_token" className="form-label">Id Token</label>
+                        <label htmlFor="id_token" className="form-label font-size-20">Id Token</label>
                         <textarea type="text" id="id_token" className="form-control" value={user.id_token} rows={4} readOnly />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="token_type" className="form-label">Token Type</label>
+                        <label htmlFor="token_type" className="form-label font-size-20">Token Type</label>
                         <input type="text" id="scope" className="form-control" value={user.token_type} readOnly />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="scope" className="form-label">Scope</label>
+                        <label htmlFor="scope" className="form-label font-size-20">Scope</label>
                         <input type="text" id="scope" className="form-control" value={user.scope} readOnly />
                     </div>
                 </fieldset>

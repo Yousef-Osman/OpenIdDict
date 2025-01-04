@@ -18,10 +18,10 @@ function UnAuthenticated() {
     return <Navigate to='/' replace />;
 
   return (
-    <div className='text-center'>
-      <h3>You are not authenticated - You must login to access the data</h3>
+    <div className='text-center mt-5'>
+      <h3 className='text-info-emphasis'>You are not authenticated - You must login to access the data</h3>
       <br />
-      <button className='btn btn-light' onClick={sendOAuthRequest}>Login with OIDC</button>
+      <button className='btn btn-secondary px-4' onClick={sendOAuthRequest}>Login with OIDC</button>
     </div>
   )
 }
